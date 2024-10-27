@@ -16,5 +16,7 @@ public class Name_Generator {
             String completeName = randomFirstName + " " + randomLastName;
             System.out.println(completeName);
         }
+
+        scanner.close();
     }
 }
