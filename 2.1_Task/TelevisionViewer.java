@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class TelevisionViewer {
     private final Television television;
     private int dayCount;
