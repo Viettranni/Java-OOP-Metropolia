@@ -5,14 +5,15 @@ public class CarDriver {
         myCar = new Car("Toyota Corolla", 50.1, 180);
         myCar.fillTank();
 
-        for (int i = 0; i < 6; i++) {
-            myCar.accelerate();
-            System.out.println(myCar.getTypeName() + ": speed is " + myCar.getSpeed());
-        }
+        // Setting cruise control
+        myCar.setTargetSpeed(90);
+        
+        // Turning cruise control ON
+        myCar.turnOn();
+        myCar.cruiseControl(90);
+        myCar.cruiseControl(50);
+        myCar.cruiseControl(80);
+        myCar.turnOff();
 
-        while (myCar.getSpeed() > 0) {
-            myCar.decelerate(15);
-            System.out.println(myCar.getTypeName() + ": top speed is " + myCar.getTopSpeed() + "km/h and speed is " + myCar.getSpeed() + " km/h and the gas tank is: " + myCar.getGasolineCapacity());
-        }
     }
 }
