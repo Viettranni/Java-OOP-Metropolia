@@ -1,6 +1,4 @@
-/* Define a class Car (convention capitalizes class names).
- * Car is public (as classes usually are, more on this later).
- */
+
 public class Car {
     /* An object of class Car will have instance variables speed and gasolineLevel.
      * Both are private (they can not be accessed outside the class methods).
@@ -9,20 +7,18 @@ public class Car {
     private double speed;
     private double gasolineLevel;
     private String typeName;
+    private double gasolineCapacity;
+    private int topSpeed;
 
-    /* This is the method (constructor) called when a new instance of Car is created (with new).
-     * Constructors may also have arguments.
-     */
-    public Car(String typeName) {
+
+    public Car(String typeName, double gasolineCapacity, int topSpeed) {
         speed = 0; gasolineLevel = 0;
-        this.typeName = typeName;   // this refers to the object itself.
-                                    // The reference is useful if you want to use parameter names that are
-                                    // identical to instance variable names (and for more, later on)
+        this.typeName = typeName;
+        this.gasolineCapacity = gasolineCapacity;
+        this.topSpeed = topSpeed;   
     }
 
-    /* Implementations of some methods.
-     * Note that methods refer to and change instance variable values.
-     */
+
     public void accelerate() {
         if (gasolineLevel > 0)
             speed += 10;
@@ -48,4 +44,11 @@ public class Car {
     double getGasolineLevel() {
         return gasolineLevel;
     }
+    double getGasolineCapacity() {
+        return gasolineCapacity;
+    }
+    int getTopSpeed() {
+        return topSpeed;
+    }
 }
+
