@@ -1,120 +1,90 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class GroceryListManager {
-    
-    private List<GroceryItem> groceryList = new ArrayList<>();
+    private HashMap<String, ShoppingList> shoppingLists;
 
-    public void addItem(String itemName, double price, String category, int quantity) {
-        // Check for duplicates
-        for (GroceryItem item : groceryList) {
-            if (item.getItemName().equals(itemName) && item.getCategory().equals(category)) {
-                // Update quantity if item already exists
-                item.setQuantity(item.getQuantity() + quantity);
-                System.out.println("The item '" + itemName + "' already exists in category '" + category + "'. Quantity updated.");
-                return;
-            }
-        }
-        // Add new item
-        groceryList.add(new GroceryItem(itemName, price, category, quantity));
-        System.out.println("The item '" + itemName + "' added to the category '" + category + "' successfully with quantity: " + quantity);
+    public GroceryListManager() {
+        this.shoppingLists = new HashMap<>();
     }
 
-    public void updateQuantity(String itemName, int newQuantity) {
-        for (GroceryItem item : groceryList) {
-            if (item.getItemName().equals(itemName)) {
-                item.setQuantity(newQuantity);
-                System.out.println("Updated the quantity of item '" + itemName + "' to " + newQuantity + ".");
-                return;
-            }
-        }
-        System.out.println("Updating failed, the item '" + itemName + "' is not in the grocery list!");
-    }
-
-    public void displayList() {
-        System.out.println("Opening the Grocery List:");
-        for (GroceryItem item : groceryList) {
-            System.out.println("Item: " + item.getItemName() + ", Price: $" + item.getPrice() + ", Category: " + item.getCategory() + ", Quantity: " + item.getQuantity());
+    // Create a new shopping list
+    public void createShoppingList(String name) {
+        if (shoppingLists.containsKey(name)) {
+            System.out.println("A shopping list with the name '" + name + "' already exists.");
+        } else {
+            shoppingLists.put(name, new ShoppingList(name));
+            System.out.println("Created new shopping list: " + name);
         }
     }
 
-    public void displayAvailableItems() {
-        System.out.println("Available items in the grocery list:");
-        boolean found = false;
-        for (GroceryItem item : groceryList) {
-            if (item.getQuantity() > 0) {
-                System.out.println("  " + item.getItemName() + ": $" + item.getPrice() + ", Quantity: " + item.getQuantity());
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println("No available items in the grocery list.");
+    // Add item to a specific shopping list
+    public void addItemToShoppingList(String listName, String item, int quantity) {
+        ShoppingList list = shoppingLists.get(listName);
+        if (list != null) {
+            list.addItem(item, quantity);
+        } else {
+            System.out.println("Shopping list '" + listName + "' does not exist.");
         }
     }
 
-    public boolean checkItem(String itemName) {
-        for (GroceryItem item : groceryList) {
-            if (item.getItemName().equals(itemName)) {
-                System.out.println("The grocery list does contain the item '" + itemName + "'.");
-                return true;
-            }
+    // Remove item from a specific shopping list
+    public void removeItemFromShoppingList(String listName, String item) {
+        ShoppingList list = shoppingLists.get(listName);
+        if (list != null) {
+            list.removeItem(item);
+        } else {
+            System.out.println("Shopping list '" + listName + "' does not exist.");
         }
-        System.out.println("The grocery list doesn't include the item '" + itemName + "'.");
-        return false;
     }
 
-    public void calculateTotalCost() {
-        double totalCost = 0;
-        for (GroceryItem item : groceryList) {
-            totalCost += item.getPrice() * item.getQuantity(); // Total cost based on quantity
+    // Display items in a specific shopping list
+    public void displayShoppingList(String listName) {
+        ShoppingList list = shoppingLists.get(listName);
+        if (list != null) {
+            list.displayList();
+        } else {
+            System.out.println("Shopping list '" + listName + "' does not exist.");
         }
-        System.out.println("The total cost of the grocery list: $" + totalCost);
     }
 
-    public void displayByCategory(String category) {
-        System.out.println("Items in category '" + category + "':");
-        boolean found = false;
-        for (GroceryItem item : groceryList) {
-            if (item.getCategory().equals(category)) {
-                System.out.println("  " + item.getItemName() + ": $" + item.getPrice() + ", Quantity: " + item.getQuantity());
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println("No items found in category '" + category + "'.");
+    // Display all shopping lists
+    public void displayAllShoppingLists() {
+        System.out.println("All Shopping Lists:");
+        for (String listName : shoppingLists.keySet()) {
+            System.out.println("  - " + listName);
         }
     }
 
     public static void main(String[] args) {
-        System.out.println("Welcome to our Grocery List!");
-        GroceryListManager groceryList = new GroceryListManager();
+        GroceryListManager manager = new GroceryListManager();
 
-        // Adding some items
-        groceryList.addItem("ironman", 500.52, "Hero", 5);
-        groceryList.addItem("hulk", 42.21, "Villain", 2);
-        groceryList.addItem("captain", 63.23, "Hero", 0);
+        // Create shopping lists
+        manager.createShoppingList("Backyard BBQ");
+        manager.createShoppingList("Weekend Camping");
 
-        // Displaying the entire list
-        groceryList.displayList();
+        // Add items to Backyard BBQ list
+        manager.addItemToShoppingList("Backyard BBQ", "Steak", 4);
+        manager.addItemToShoppingList("Backyard BBQ", "Charcoal", 1);
+        manager.addItemToShoppingList("Backyard BBQ", "Lemonade", 2);
 
-        // Displaying available items
-        groceryList.displayAvailableItems();
+        // Add items to Weekend Camping list
+        manager.addItemToShoppingList("Weekend Camping", "Tent", 1);
+        manager.addItemToShoppingList("Weekend Camping", "Sleeping Bag", 2);
+        manager.addItemToShoppingList("Weekend Camping", "Marshmallows", 3);
 
-        // Checking if an item is in the list
-        groceryList.checkItem("ironman");
+        // Display all lists
+        manager.displayAllShoppingLists();
 
-        // Updating quantity of an item
-        groceryList.updateQuantity("hulk", 4);
+        // Display items in a specific shopping list
+        System.out.println("\nDisplaying Backyard BBQ List:");
+        manager.displayShoppingList("Backyard BBQ");
 
-        // Displaying the list again
-        groceryList.displayList();
+        System.out.println("\nDisplaying Weekend Camping List:");
+        manager.displayShoppingList("Weekend Camping");
 
-        // Calculating the total cost
-        groceryList.calculateTotalCost();
-
-        // Displaying items by category
-        groceryList.displayByCategory("Hero");
-        groceryList.displayByCategory("Villain");
-        groceryList.displayByCategory("Fruits"); // Non-existent category
+        // Remove item from a list and display again
+        manager.removeItemFromShoppingList("Backyard BBQ", "Charcoal");
+        System.out.println("\nDisplaying Backyard BBQ List after removing Charcoal:");
+        manager.displayShoppingList("Backyard BBQ");
     }
 }
