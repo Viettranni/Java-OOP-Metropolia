@@ -1,119 +1,120 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroceryListManager {
-    private HashMap<String, HashMap<String, Double>> groceryList = new HashMap<>();
+    
+    private List<GroceryItem> groceryList = new ArrayList<>();
 
-    public void addItem(String item, Double price, String category) {
-        // If the category doesn't exist, create a new inner HashMap
-        groceryList.putIfAbsent(category, new HashMap<>());
-
-        // Check for duplicates in the category before adding
-        if (groceryList.get(category).containsKey(item)) {
-            System.out.println("The item '" + item + "' is duplicate in category '" + category + "', we won't be adding it!");
-        } else {
-            // Add the item to the specified category
-            groceryList.get(category).put(item, price);
-            System.out.println("The item '" + item + "' added to the category '" + category + "' successfully.");
-        }
-    }
-
-    public void removeItem(String item) {
-        // Loop through categories to find and remove the item
-        boolean found = false;
-        for (String category : groceryList.keySet()) {
-            if (groceryList.get(category).containsKey(item)) {
-                groceryList.get(category).remove(item);
-                System.out.println("Removed the item '" + item + "' successfully from category '" + category + "'.");
-                found = true;
-                break; 
+    public void addItem(String itemName, double price, String category, int quantity) {
+        // Check for duplicates
+        for (GroceryItem item : groceryList) {
+            if (item.getItemName().equals(itemName) && item.getCategory().equals(category)) {
+                // Update quantity if item already exists
+                item.setQuantity(item.getQuantity() + quantity);
+                System.out.println("The item '" + itemName + "' already exists in category '" + category + "'. Quantity updated.");
+                return;
             }
         }
-        if (!found) {
-            System.out.println("Removing failed, the item '" + item + "' is not in the grocery list!");
+        // Add new item
+        groceryList.add(new GroceryItem(itemName, price, category, quantity));
+        System.out.println("The item '" + itemName + "' added to the category '" + category + "' successfully with quantity: " + quantity);
+    }
+
+    public void updateQuantity(String itemName, int newQuantity) {
+        for (GroceryItem item : groceryList) {
+            if (item.getItemName().equals(itemName)) {
+                item.setQuantity(newQuantity);
+                System.out.println("Updated the quantity of item '" + itemName + "' to " + newQuantity + ".");
+                return;
+            }
         }
+        System.out.println("Updating failed, the item '" + itemName + "' is not in the grocery list!");
     }
 
     public void displayList() {
         System.out.println("Opening the Grocery List:");
-        for (String category : groceryList.keySet()) {
-            System.out.println("Category: " + category);
-            for (Map.Entry<String, Double> entry : groceryList.get(category).entrySet()) {
-                System.out.println("  " + entry.getKey() + ": $" + entry.getValue());
-            }
+        for (GroceryItem item : groceryList) {
+            System.out.println("Item: " + item.getItemName() + ", Price: $" + item.getPrice() + ", Category: " + item.getCategory() + ", Quantity: " + item.getQuantity());
         }
     }
 
-    public boolean checkItem(String item) {
-        for (String category : groceryList.keySet()) {
-            if (groceryList.get(category).containsKey(item)) {
-                System.out.println("The grocery list does contain the item '" + item + "' in category '" + category + "'.");
+    public void displayAvailableItems() {
+        System.out.println("Available items in the grocery list:");
+        boolean found = false;
+        for (GroceryItem item : groceryList) {
+            if (item.getQuantity() > 0) {
+                System.out.println("  " + item.getItemName() + ": $" + item.getPrice() + ", Quantity: " + item.getQuantity());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No available items in the grocery list.");
+        }
+    }
+
+    public boolean checkItem(String itemName) {
+        for (GroceryItem item : groceryList) {
+            if (item.getItemName().equals(itemName)) {
+                System.out.println("The grocery list does contain the item '" + itemName + "'.");
                 return true;
             }
         }
-        System.out.println("The grocery list doesn't include the item '" + item + "'.");
+        System.out.println("The grocery list doesn't include the item '" + itemName + "'.");
         return false;
     }
 
     public void calculateTotalCost() {
         double totalCost = 0;
-
-        for (String category : groceryList.keySet()) {
-            for (double cost : groceryList.get(category).values()) {
-                totalCost += cost;
-            }
+        for (GroceryItem item : groceryList) {
+            totalCost += item.getPrice() * item.getQuantity(); // Total cost based on quantity
         }
-
         System.out.println("The total cost of the grocery list: $" + totalCost);
     }
 
     public void displayByCategory(String category) {
-        if (groceryList.containsKey(category)) {
-            System.out.println("Items in category '" + category + "':");
-            for (Map.Entry<String, Double> entry : groceryList.get(category).entrySet()) {
-                System.out.println("  " + entry.getKey() + ": $" + entry.getValue());
+        System.out.println("Items in category '" + category + "':");
+        boolean found = false;
+        for (GroceryItem item : groceryList) {
+            if (item.getCategory().equals(category)) {
+                System.out.println("  " + item.getItemName() + ": $" + item.getPrice() + ", Quantity: " + item.getQuantity());
+                found = true;
             }
-        } else {
+        }
+        if (!found) {
             System.out.println("No items found in category '" + category + "'.");
         }
     }
 
     public static void main(String[] args) {
         System.out.println("Welcome to our Grocery List!");
-        System.out.println("Let's add a few items to the grocery list:");
-
         GroceryListManager groceryList = new GroceryListManager();
 
-        // Adding some random items
-        groceryList.addItem("ironman", 500.52, "Hero");
-        groceryList.addItem("hulk", 42.21, "Villain");
-        groceryList.addItem("captain", 63.23, "Hero");
+        // Adding some items
+        groceryList.addItem("ironman", 500.52, "Hero", 5);
+        groceryList.addItem("hulk", 42.21, "Villain", 2);
+        groceryList.addItem("captain", 63.23, "Hero", 0);
 
         // Displaying the entire list
         groceryList.displayList();
 
-        // Checking if the apple is in the list
+        // Displaying available items
+        groceryList.displayAvailableItems();
+
+        // Checking if an item is in the list
         groceryList.checkItem("ironman");
 
-        // Removing an item from the list
-        groceryList.removeItem("captain");
+        // Updating quantity of an item
+        groceryList.updateQuantity("hulk", 4);
 
         // Displaying the list again
         groceryList.displayList();
 
         // Calculating the total cost
-        System.out.println("Calculating the total cost...");
         groceryList.calculateTotalCost();
 
         // Displaying items by category
-        System.out.println("Displaying items in the 'Hero' category:");
         groceryList.displayByCategory("Hero");
-
-        System.out.println("Displaying items in the 'Villain' category:");
         groceryList.displayByCategory("Villain");
-
-        // Shouldn't return anything
-        System.out.println("Displaying items in the 'Fruits' category (non-existent):");
-        groceryList.displayByCategory("Fruits");
+        groceryList.displayByCategory("Fruits"); // Non-existent category
     }
 }
