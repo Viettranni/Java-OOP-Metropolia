@@ -1,64 +1,93 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class GroceryListManager {
-    private HashMap<String, Double> groceryList = new HashMap<>();
+    private HashMap<String, HashMap<String, Double>> groceryList = new HashMap<>();
 
-    public void addItem(String item, Double price) {
-        if (groceryList.containsKey(item)) {
-            System.out.println("The item is duplicate, we won't be adding the item!");
+    public void addItem(String item, Double price, String category) {
+        // If the category doesn't exist, create a new inner HashMap
+        groceryList.putIfAbsent(category, new HashMap<>());
+
+        // Check for duplicates in the category before adding
+        if (groceryList.get(category).containsKey(item)) {
+            System.out.println("The item '" + item + "' is duplicate in category '" + category + "', we won't be adding it!");
         } else {
-            groceryList.put(item, price);
-            System.out.println("The " + item + " added to the list successfully");
+            // Add the item to the specified category
+            groceryList.get(category).put(item, price);
+            System.out.println("The item '" + item + "' added to the category '" + category + "' successfully.");
         }
     }
 
     public void removeItem(String item) {
-        if (groceryList.containsKey(item)) {
-            groceryList.remove(item);
-            System.out.println("Removed the " + item + " successfully");
-        } else {
-            System.out.println("Removing failed, the " + item + " is not in the basket!");
+        // Loop through categories to find and remove the item
+        boolean found = false;
+        for (String category : groceryList.keySet()) {
+            if (groceryList.get(category).containsKey(item)) {
+                groceryList.get(category).remove(item);
+                System.out.println("Removed the item '" + item + "' successfully from category '" + category + "'.");
+                found = true;
+                break; 
+            }
+        }
+        if (!found) {
+            System.out.println("Removing failed, the item '" + item + "' is not in the grocery list!");
         }
     }
 
     public void displayList() {
         System.out.println("Opening the Grocery List:");
-        for (String item : groceryList.keySet()) {
-            System.out.println(item + ": $" + groceryList.get(item));
+        for (String category : groceryList.keySet()) {
+            System.out.println("Category: " + category);
+            for (Map.Entry<String, Double> entry : groceryList.get(category).entrySet()) {
+                System.out.println("  " + entry.getKey() + ": $" + entry.getValue());
+            }
         }
     }
 
     public boolean checkItem(String item) {
-        if (groceryList.containsKey(item)) {
-            System.out.println( "The grocery list does contain the " + item );
-            return true;
-        } else {
-            System.out.println("The grocery list doesn't include the " + item );
-            return false; 
+        for (String category : groceryList.keySet()) {
+            if (groceryList.get(category).containsKey(item)) {
+                System.out.println("The grocery list does contain the item '" + item + "' in category '" + category + "'.");
+                return true;
+            }
         }
+        System.out.println("The grocery list doesn't include the item '" + item + "'.");
+        return false;
     }
 
     public void calculateTotalCost() {
         double totalCost = 0;
 
-        for ( String getPrice : groceryList.keySet()) {
-            double cost = groceryList.get(getPrice);
-            totalCost += cost;
+        for (String category : groceryList.keySet()) {
+            for (double cost : groceryList.get(category).values()) {
+                totalCost += cost;
+            }
         }
 
-        System.out.println("The total cost of the List: $" + totalCost);
+        System.out.println("The total cost of the grocery list: $" + totalCost);
+    }
+
+    public void displayByCategory(String category) {
+        if (groceryList.containsKey(category)) {
+            System.out.println("Items in category '" + category + "':");
+            for (Map.Entry<String, Double> entry : groceryList.get(category).entrySet()) {
+                System.out.println("  " + entry.getKey() + ": $" + entry.getValue());
+            }
+        } else {
+            System.out.println("No items found in category '" + category + "'.");
+        }
     }
 
     public static void main(String[] args) {
         System.out.println("Welcome to our Grocery List!");
-        System.out.println("Let's add a few items to the grocery list: ");
+        System.out.println("Let's add a few items to the grocery list:");
 
         GroceryListManager groceryList = new GroceryListManager();
 
         // Adding some random items
-        groceryList.addItem("ironman", 500.52);
-        groceryList.addItem("hulk", 42.21);
-        groceryList.addItem("captain", 63.23);
+        groceryList.addItem("ironman", 500.52, "Hero");
+        groceryList.addItem("hulk", 42.21, "Villain");
+        groceryList.addItem("captain", 63.23, "Hero");
 
         // Displaying the entire list
         groceryList.displayList();
@@ -76,5 +105,15 @@ public class GroceryListManager {
         System.out.println("Calculating the total cost...");
         groceryList.calculateTotalCost();
 
+        // Displaying items by category
+        System.out.println("Displaying items in the 'Hero' category:");
+        groceryList.displayByCategory("Hero");
+
+        System.out.println("Displaying items in the 'Villain' category:");
+        groceryList.displayByCategory("Villain");
+
+        // Shouldn't return anything
+        System.out.println("Displaying items in the 'Fruits' category (non-existent):");
+        groceryList.displayByCategory("Fruits");
     }
 }
