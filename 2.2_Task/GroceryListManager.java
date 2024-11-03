@@ -4,8 +4,12 @@ public class GroceryListManager {
     private ArrayList<String> groceryList = new ArrayList<>();
 
     public void addItem(String item) {
-        groceryList.add(item);
-        System.out.println("The " + item + " added to the list successfully");
+        if (groceryList.contains(item)) {
+            System.out.println("The item is duplicate, we won't be adding the item!");
+        } else {
+            groceryList.add(item);
+            System.out.println("The " + item + " added to the list successfully");
+        }
     }
 
     public void removeItem(String item) {
@@ -13,11 +17,12 @@ public class GroceryListManager {
             groceryList.remove(item);
             System.out.println("Removed the " + item + " successfully");
         } else {
-            System.out.println("Removing failed, the item is not in the basket!");
+            System.out.println("Removing failed, the " + item + " is not in the basket!");
         }
     }
 
     public void displayList() {
+        System.out.println("Opening the Grocery List:");
         for (String item : groceryList) {
             System.out.println(item);
         }
@@ -40,9 +45,9 @@ public class GroceryListManager {
         GroceryListManager groceryList = new GroceryListManager();
 
         // Adding some random items
-        groceryList.addItem("Apple");
-        groceryList.addItem("Pear");
-        groceryList.addItem("Ananas");
+        groceryList.addItem("ironman");
+        groceryList.addItem("hulk");
+        groceryList.addItem("ironman");
 
         // Displaying the entire list
         groceryList.displayList();
