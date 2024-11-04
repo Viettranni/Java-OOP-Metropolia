@@ -1,14 +1,17 @@
+import java.util.ArrayList;
+
 public class Book {
     private String title;
     private String author;
     private int publicationYear;
     private double rating;
-    private String review;
+    private ArrayList<String> reviews;
 
     public Book(String title, String author, int publicationYear) {
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
+        this.reviews = new ArrayList<>(); 
     }
 
     public String getTitle() {
@@ -32,15 +35,22 @@ public class Book {
     }
 
     public void setReview(String review) {
-        this.review = review;
+        reviews.add(review);
     }
 
     public double getRating() {
         return rating;
     }
 
-    public String getReview() {
-        return review;
+    public void displayReviews() {
+        System.out.println("Here are the reviews for the book: ");
+        for (String review : reviews) {
+            System.out.println(review);
+        }
+    }
+
+    public int getReviewsSize() {
+        return reviews.size();
     }
 
 

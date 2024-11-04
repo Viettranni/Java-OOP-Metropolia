@@ -37,6 +37,14 @@ public class LibraryMain {
 
         // Setting and displaying the review
         secondBook.setReview("The book is awesome!");
-        System.out.println("Review for '" + secondBook.getTitle() + "': " + secondBook.getReview());
+        secondBook.setReview("The book is fantastic!");
+        thirdBook.setReview("The book is scary!");
+        secondBook.displayReviews();
+
+        // Calculating the AVG rating of the library
+        turkuLibrary.getAverageBookRating();
+
+        // Get most revied book from the turku library
+        turkuLibrary.getMostReviewedBook();
     }
 }

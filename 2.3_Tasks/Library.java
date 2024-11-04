@@ -69,4 +69,41 @@ public class Library {
         return false;
     }
 
+    public void getAverageBookRating() {
+        double totalRatings = 0;
+        int countBooks = 0;
+        
+        for (Book book : books) {
+            double rating = book.getRating();
+            totalRatings += rating;
+            countBooks++;
+        }
+
+        // Checking if there are more than one book and then it calculates the average
+        if (countBooks > 0) {
+            double averageRating = totalRatings / countBooks;
+            System.out.println("The average rating is: " + averageRating);
+        } else {
+            System.out.println("There are no books in the library");
+        }
+    }
+
+    public void getMostReviewedBook() {
+        int topReviews = 0;
+        Book topBook = null;
+
+        for (Book book : books) {
+            if (book.getReviewsSize() > topReviews) {
+                topReviews = book.getReviewsSize();
+                topBook = book;
+            }
+        }
+
+        if (topBook != null) {
+            System.out.println("The book with the most reviews is: " + topBook.getTitle() + " with " + topReviews + " reviews.");
+        } else {
+            System.out.println("No books in the library have reviews.");
+        }
+    }
+
 }
