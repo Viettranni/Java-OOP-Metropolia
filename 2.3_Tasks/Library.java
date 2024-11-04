@@ -2,10 +2,18 @@ import java.util.ArrayList;
 
 public class Library {
     private ArrayList<Book> books = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
 
+    // Adding the book
     public void addBook(Book book) {
         books.add(book);
         System.out.println("Adding the book: " + book.getTitle());
+    }
+
+    // Adding the user
+    public void addUser(User user) {
+        users.add(user);
+        System.out.println("Adding the user: " + user.getName());
     }
 
     public void displayBooks() {
@@ -103,6 +111,35 @@ public class Library {
             System.out.println("The book with the most reviews is: " + topBook.getTitle() + " with " + topReviews + " reviews.");
         } else {
             System.out.println("No books in the library have reviews.");
+        }
+    }
+
+    public void userBorrowBook(User user, Book book) {
+        // Checking if the book is available
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getTitle().equals(book.getTitle())) {
+                user.borrowBook(book); // Assuming borrowBook method exists in User class
+                
+                // Now, remove the book from the library's collection
+                books.remove(i);
+                System.out.println("The book " + book.getTitle() + " has been borrowed by " + user.getName() + ".");
+                return; // Exit the method after borrowing the book
+            }
+        }
+
+        // If the book is not found
+        System.out.println("Sorry, the book " + book.getTitle() + " is not available.");
+    }
+
+    // Shows users and their borrowed books
+    public void displayUsers() {
+        if (users.isEmpty()) {
+            System.out.println("No users in the library.");
+            return;
+        }
+
+        for (User user : users) {
+            System.out.print("The user " + user.getName() + " is borrowing some books: " + user.getBorrowedBooks());
         }
     }
 
