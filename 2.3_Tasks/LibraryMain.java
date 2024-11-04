@@ -27,5 +27,8 @@ public class LibraryMain {
 
         // Displaying books after borrowing and returning
         turkuLibrary.displayBooks();
+
+        // Checking if the book is available
+        turkuLibrary.isBookAvailable("Pumpking");
     }
 }

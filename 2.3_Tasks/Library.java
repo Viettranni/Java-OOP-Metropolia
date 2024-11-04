@@ -56,4 +56,17 @@ public class Library {
         System.out.println("You have returned the book: " + book.getTitle());
     }
 
+    public boolean isBookAvailable(String title) {
+        System.out.println("Checking the books availablity: ");
+
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getTitle().equals(title)) {
+                System.out.println("The book " + books.get(i).getTitle() + " is still available. Would you like to borrow it?");
+                return true;
+            }
+        }
+        System.out.println("The book " + title + " is not available!");
+        return false;
+    }
+
 }
