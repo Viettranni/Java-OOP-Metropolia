@@ -30,5 +30,13 @@ public class LibraryMain {
 
         // Checking if the book is available
         turkuLibrary.isBookAvailable("Pumpking");
+
+        // Setting and displaying the rating
+        secondBook.setRating(4.3);
+        System.out.println("Rating for '" + secondBook.getTitle() + "': " + secondBook.getRating());
+
+        // Setting and displaying the review
+        secondBook.setReview("The book is awesome!");
+        System.out.println("Review for '" + secondBook.getTitle() + "': " + secondBook.getReview());
     }
 }
