@@ -11,7 +11,6 @@ public class User {
         this.borrowedBooks = new ArrayList<>();
     }
 
-  
 
     public String getName() {
         return name;
