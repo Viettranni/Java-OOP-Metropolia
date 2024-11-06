@@ -3,8 +3,8 @@ package tasks3_1;
 public class Triangle extends Shape{
     private String triangle = "Triangle";
 
-    public Triangle(int x, int y) {
-        super(x, y);
+    public Triangle(int x, int y, String color) {
+        super(x, y, color);
     }
 
     @Override
