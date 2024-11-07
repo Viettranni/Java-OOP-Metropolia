@@ -1,6 +1,6 @@
 package task3_2;
 
-public abstract class AbstractVehicle {
+public abstract class AbstractVehicle implements ElectricVehicle{
     protected String type;
     protected String fuel;
     protected String color;
