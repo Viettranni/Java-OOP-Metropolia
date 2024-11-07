@@ -36,4 +36,17 @@ public class Bus implements Vehicle {
         System.out.println(this.getType() + " Information: ");
         return String.format("Type: %s, Fuel: %s, Capacity: %d", type, fuel, passengerCapacity);
     }
+
+    @Override
+    public void calculateFuelEfficiency() {
+        if (this.fuel.equals("Electric")) {
+            System.out.println("The vehicle's fuel efficiency is 1.5 kwh/km.");
+        } else if (this.fuel.equals("Diesel")) {
+            System.out.println("The vehicle's fuel efficiency is 0.20 l/km.");
+        } else if (this.fuel.equals("Gasoline")) {
+            System.out.println("The vehicle's fuel efficiency is 0.23 kwh/km.");
+        } else {
+            System.out.println("Please redefine the fuel type (Gasoline, Diesel, Electric)");
+        }
+    }
 }

@@ -36,4 +36,17 @@ public class Motorcycle implements Vehicle {
         System.out.println(this.getType() + " Information: ");
         return String.format("Type: %s, Fuel: %s, Color: %s", type, fuel, color);
     }
+
+    @Override
+    public void calculateFuelEfficiency() {
+        if (this.fuel.equals("Electric")) {
+            System.out.println("The vehicle's fuel efficiency is 0.07 kwh/km.");
+        } else if (this.fuel.equals("Diesel")) {
+            System.out.println("The vehicle's fuel efficiency is 0.04 l/km.");
+        } else if (this.fuel.equals("Gasoline")) {
+            System.out.println("The vehicle's fuel efficiency is 0.04 kwh/km.");
+        } else {
+            System.out.println("Please redefine the fuel type (Gasoline, Diesel, Electric)");
+        }
+    }
 }

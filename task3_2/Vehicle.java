@@ -9,5 +9,7 @@ public interface Vehicle {
     void stop();
 
     String getInfo();
+
+    void calculateFuelEfficiency();
 }
 
