@@ -19,3 +19,4 @@ public class VehicleRun {
         System.out.println(bus.getInfo());
     }
 }
+
