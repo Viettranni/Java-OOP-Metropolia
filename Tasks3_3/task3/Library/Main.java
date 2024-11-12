@@ -39,7 +39,7 @@ public class Main {
         // Display reservations
         uniqueLibrary.displayReservedBooks(jenna);
 
+        // Cancelling reservations 
         uniqueLibrary.cancelReservation(jenna, hulk);
-
     }
 }
