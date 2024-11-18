@@ -3,6 +3,8 @@ package Tasks5_2;
 public class Theatre {
     public int amountOfSeats = 40;
 
+    // Using synchronized since multiple customers will try to access the amountOfSeats variable at the same time
+    // Ensured so only one thread can execute the reservingSeat method at a time
     public synchronized void reservingSeat(int number) {
         // Gets the name of the current customer
         String customer = Thread.currentThread().getName();
