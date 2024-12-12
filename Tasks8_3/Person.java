@@ -10,8 +10,6 @@ public class Person {
     private String name;
     private int age;
     private String city;
-    
-
 
     public Person (String name, int age, String city) {
         this.name = name;
@@ -41,6 +39,7 @@ public class Person {
         people.add(viet);
         people.add(jenna);
         people.add(saed);
+
         // People sorted by age
         people.sort(Comparator.comparingInt(Person::getAge));
 
@@ -57,9 +56,30 @@ public class Person {
         for (Person person : people) {
             System.out.println(person.name + ", " + person.age + ", " + person.city);
         }
+
+        // Tasks 2
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+        numbers.add(10);
+        numbers.add(5);
+        numbers.add(8);
+        numbers.add(20);
+        numbers.add(15);
+        numbers.add(3);
+        numbers.add(12);
+
+        // Filtering out Even Numbers
+        numbers.removeIf(number -> number % 2 == 0);
+        System.out.println("Printing the remaining numbers: ");
+        numbers.forEach(number -> System.out.println(number));
+
+        // Doubling the Odd Numbers
+        numbers.replaceAll(number -> number * 2);
+        System.out.println("Printing the numbers after doubling them: ");
+        numbers.forEach(number -> System.out.println(number));
+
+        // Sum the Numbers
+        int[] total = {0}; 
+        numbers.forEach(number -> total[0] += number);
+        System.out.println("The Combined numbers: " + total[0]);
     }
-    
-
-
-    
 }
