@@ -1,0 +1,65 @@
+
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
+
+public class Person {
+    private String name;
+    private int age;
+    private String city;
+    
+
+
+    public Person (String name, int age, String city) {
+        this.name = name;
+        this.age = age;
+        this.city = city;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+
+    public static void main(String[] args) {
+        List<Person> people = new ArrayList<>();
+        Person viet = new Person("Viet", 24, "Turku");
+        Person jenna = new Person("Jenna", 22, "Helsinki");
+        Person saed = new Person("Saed", 25, "Vantaa");
+
+        people.add(viet);
+        people.add(jenna);
+        people.add(saed);
+        // People sorted by age
+        people.sort(Comparator.comparingInt(Person::getAge));
+
+        System.out.println("People sorted by age (ascending):");
+        for (Person person : people) {
+            System.out.println(person.name + ", " + person.age + ", " + person.city);
+        }
+
+        // Filter people from a specific city 
+        String targetCity = "Helsinki";
+        people.removeIf(person -> !person.getCity().equals(targetCity));
+
+        System.out.println("People from " + targetCity + ":");
+        for (Person person : people) {
+            System.out.println(person.name + ", " + person.age + ", " + person.city);
+        }
+    }
+    
+
+
+    
+}
